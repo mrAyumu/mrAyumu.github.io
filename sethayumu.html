@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seth Ayumu - Petroleum Engineering & Data Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo_white_bg.png">
+    <style>
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-color: #88b5c8;
+            --secondary-color: #33313b;
+            --accent-color: #2200ff;
+            --text-dark: #373737;
+            --text-light: #ffffff;
+            --bg-overlay: rgba(255, 255, 255, 0.9);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section with Animated Stripes */
+        .hero-container {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .animated-stripes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 175px;
+            z-index: 1;
+        }
+
+        .stripe {
+            position: absolute;
+            width: 100%;
+            background-color: var(--primary-color);
+            animation: stripeGrow 2s ease-out forwards;
+        }
+
+        .stripe:nth-child(1) { height: 20px; top: 0; animation-delay: 0.1s; }
+        .stripe:nth-child(2) { height: 30px; top: 20px; animation-delay: 0.2s; }
+        .stripe:nth-child(3) { height: 35px; top: 50px; animation-delay: 0.3s; }
+        .stripe:nth-child(4) { height: 40px; top: 85px; animation-delay: 0.4s; }
+        .stripe:nth-child(5) { height: 50px; top: 125px; animation-delay: 0.5s; opacity: 0.98; }
+
+        @keyframes stripeGrow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-smooth);
+            margin-bottom: 2rem;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .social-links img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hero-headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--secondary-color);
+        }
+
+        .hero-subheadline {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .accent-line {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+
+        .hero-text:hover .accent-line {
+            width: 120px;
+        }
+
+        /* About Section */
+        .about-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .about-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-overlay) 0%, rgba(255, 255, 255, 0.5) 100%);
+            z-index: 2;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-align: right;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            transition: var(--transition-smooth);
+        }
+
+        .section-title:hover::after {
+            width: 120px;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text strong {
+            color: var(--secondary-color);
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .projects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(136, 181, 200, 0.2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .project-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #1a00cc 100%);
+            padding: 1rem 2rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .cta-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition-smooth);
+        }
+
+        .cta-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .section-title {
+                text-align: center;
+            }
+
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling and performance optimizations */
+        .hero-container, .about-section {
+            will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-container">
+        <div class="animated-stripes">
+            <div class="stripe"></div>
+            <div class="stripe"></div>
+            <div class="stripe"></div>
+            <div class="stripe"></div>
+            <div class="stripe"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="profile-section">
+                <img src="Photo_Seth-removebg.png" alt="Seth Ayumu - Petroleum Engineer and Data Analyst" class="profile-photo">
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/sethayumu" aria-label="LinkedIn Profile">
+                        <img src="linkedin-3-512.png" alt="LinkedIn">
+                    </a>
+                    <a href="https://instagram.com/wofa_seth" aria-label="Instagram Profile">
+                        <img src="instagram.png" alt="Instagram">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-text">
+                <h1 class="hero-headline">
+                    Turning Field-Scale Production Data into Impactful, Actionable Insights
+                </h1>
+                <p class="hero-subheadline">
+                    🛢️ Petroleum Engineering Grad Student | 📊 Data Analyst | 💪🏿 Community Builder
+                </p>
+                <div class="accent-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="vid section.mp4" type="video/mp4">
+        </video>
+        <div class="about-overlay"></div>
+        
+        <div class="about-content">
+            <h2 class="section-title">About</h2>
+            <div class="about-text">
+                <p><strong>I'm a petroleum engineer with a focus on reservoir characterization, CO₂ EOR, and data-driven field optimization.</strong></p>
+                
+                <p><strong>I specialize in transforming large-scale production data into actionable insights—using geostatistics, spatial analysis, and physics-informed modeling to improve decision-making in oil and gas field development.</strong></p>
+                
+                <p><strong>My passion lies in applying modern data science to traditional petroleum engineering challenges. I recently presented my work at the SPE Canadian Energy Technology Conference, where I introduced a novel approach to correlating CO₂ EOR performance with geological features—laying the groundwork for a product I hope to continue building with future collaborators.</strong></p>
+                
+                <p><strong>Whether it's fracture mapping, building interactive analysis tools, or guiding CO₂ EOR strategies, I bring clarity, precision, and a deep commitment to innovation.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section" id="projects">
+        <div class="projects-container">
+            <h2 class="section-title" style="text-align: center;">Featured Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">CO₂ EOR Performance Analysis</h3>
+                    <p class="project-description">
+                        Developed a novel correlation framework between CO₂ Enhanced Oil Recovery performance and geological features, presented at SPE Canadian Energy Technology Conference.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Geostatistics</span>
+                        <span class="tech-tag">Machine Learning</span>
+                        <span class="tech-tag">Reservoir Modeling</span>
+                    </div>
+                    <a href="#" class="project-link">View Details →</a>
+                </div>
+                
+                <div class="project-card">
+                    <h3 class="project-title">Interactive Fracture Mapping Tool</h3>
+                    <p class="project-description">
+                        Built an interactive visualization platform for analyzing fracture networks and their impact on production optimization in unconventional reservoirs.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">Spatial Analysis</span>
+                        <span class="tech-tag">Data Visualization</span>
+                    </div>
+                    <a href="#" class="project-link">View Details →</a>
+                </div>
+                
+                <div class="project-card">
+                    <h3 class="project-title">Field Production Optimization Dashboard</h3>
+                    <p class="project-description">
+                        Designed and implemented a real-time dashboard for monitoring field-scale production metrics and automated decision support systems.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Time Series Analysis</span>
+                        <span class="tech-tag">API Development</span>
+                    </div>
+                    <a href="#" class="project-link">View Details →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="#projects" class="cta-link">View My Work</a>
+            <a href="https://calendly.com/sethayumu/30min" class="cta-link">Let's Have a Coffee Chat!</a>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe project cards for scroll animations
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Performance optimization: Pause video when not visible
+        const video = document.querySelector('.video-background');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (video) {
+            videoObserver.observe(video);
+        }
+    </script>
+</body>
+</html>
