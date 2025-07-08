@@ -397,6 +397,14 @@
                 </header>
 
                 <div id="posts-container" class="posts-grid">
+                    {% for post in site.posts %}
+                        <article class="post-card">
+                        <h2>{{ post.title }}</h2>
+                        <p class="post-date">{{ post.date | date: "%B %d, %Y" }}</p>
+                        <p class="post-excerpt">{{ post.excerpt }}</p>
+                        <a href="{{ post.url }}">Read More →</a>
+                        </article>
+                    {% endfor %}
                     <div class="loading">
                         <div class="spinner"></div>
                     </div>
@@ -436,184 +444,12 @@
     </div>
 
     <script>
-        // Sample blog posts data - In real implementation, this would come from a database or API
-        const blogPosts = [
-            {
-                id: 1,
-                title: "Correlating CO₂ EOR Performance with Geological Features",
-                excerpt: "How I developed a novel approach to predict CO₂ Enhanced Oil Recovery performance using geostatistical analysis and machine learning techniques.",
-                content: `
-                    <h1>Correlating CO₂ EOR Performance with Geological Features</h1>
-                    <div class="meta">
-                        <span class="post-date">March 15, 2025</span> • 
-                        <span class="post-category">CO₂ EOR</span>
-                    </div>
-                    
-                    <p>At the recent SPE Canadian Energy Technology Conference, I had the opportunity to present my research on correlating CO₂ Enhanced Oil Recovery (EOR) performance with geological features. This work represents a significant step forward in our ability to predict and optimize CO₂ EOR projects.</p>
-                    
-                    <h2>The Challenge</h2>
-                    <p>Traditional approaches to CO₂ EOR optimization often rely on simplified reservoir models that don't fully capture the complexity of geological heterogeneity. This leads to suboptimal injection strategies and incomplete recovery predictions.</p>
-                    
-                    <h2>Our Approach</h2>
-                    <p>We developed a comprehensive framework that integrates:</p>
-                    <ul>
-                        <li>High-resolution geological modeling</li>
-                        <li>Geostatistical analysis of rock properties</li>
-                        <li>Machine learning algorithms for pattern recognition</li>
-                        <li>Physics-informed neural networks</li>
-                    </ul>
-                    
-                    <h2>Key Findings</h2>
-                    <p>Our analysis revealed strong correlations between specific geological features and CO₂ EOR performance metrics. Most notably, permeability contrasts and structural dip angles showed R² values exceeding 0.85 when predicting sweep efficiency.</p>
-                    
-                    <h2>Code Example</h2>
-                    <pre><code>
-import numpy as np
-import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import StandardScaler
-
-# Load geological and production data
-geo_data = pd.read_csv('geological_features.csv')
-prod_data = pd.read_csv('co2_eor_performance.csv')
-
-# Feature engineering
-features = ['permeability_contrast', 'porosity_avg', 'structural_dip']
-X = geo_data[features]
-y = prod_data['sweep_efficiency']
-
-# Train model
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_scaled, y)
-
-print(f"Model R² score: {model.score(X_scaled, y):.3f}")
-                    </code></pre>
-                    
-                    <h2>Future Work</h2>
-                    <p>This research forms the foundation for a larger product that I'm developing to help operators optimize their CO₂ EOR strategies. If you're interested in collaborating or learning more, feel free to reach out!</p>
-                `,
-                date: "March 15, 2025",
-                category: "co2-eor",
-                tags: ["CO₂ EOR", "Machine Learning", "Geostatistics"]
-            },
-            {
-                id: 2,
-                title: "Building Interactive Fracture Maps with Python and D3.js",
-                excerpt: "A step-by-step guide to creating dynamic fracture network visualizations that help optimize unconventional reservoir development.",
-                content: `
-                    <h1>Building Interactive Fracture Maps with Python and D3.js</h1>
-                    <div class="meta">
-                        <span class="post-date">March 8, 2025</span> • 
-                        <span class="post-category">Data Analysis</span>
-                    </div>
-                    
-                    <p>Fracture network analysis is crucial for optimizing production in unconventional reservoirs. In this post, I'll walk you through building an interactive fracture mapping tool using Python for data processing and D3.js for visualization.</p>
-                    
-                    <h2>Data Preparation</h2>
-                    <p>First, we need to process our fracture data and extract meaningful patterns...</p>
-                `,
-                date: "March 8, 2025",
-                category: "data-analysis",
-                tags: ["Python", "D3.js", "Fracture Analysis"]
-            },
-            {
-                id: 3,
-                title: "Optimizing Field Production with Time Series Analysis",
-                excerpt: "How to use ARIMA models and Prophet forecasting to predict production decline and optimize well interventions.",
-                content: `
-                    <h1>Optimizing Field Production with Time Series Analysis</h1>
-                    <div class="meta">
-                        <span class="post-date">February 28, 2025</span> • 
-                        <span class="post-category">Reservoir Engineering</span>
-                    </div>
-                    
-                    <p>Production forecasting is essential for making informed decisions about well interventions and field development strategies...</p>
-                `,
-                date: "February 28, 2025",
-                category: "reservoir-engineering",
-                tags: ["Time Series", "Production Forecasting", "Python"]
-            }
-        ];
-
-        let currentPosts = [...blogPosts];
-        let currentCategory = null;
-
-        // Initialize blog
-        document.addEventListener('DOMContentLoaded', function() {
-            renderPosts();
-            renderRecentPosts();
-            setupSearch();
-        });
-
-        function renderPosts(posts = currentPosts) {
-            const container = document.getElementById('posts-container');
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-dark); font-style: italic;">No posts found matching your criteria.</p>';
-                return;
-            }
-
-            container.innerHTML = posts.map(post => `
-                <article class="post-card" onclick="showPost(${post.id})">
-                    <div class="post-meta">
-                        <span class="post-date">${post.date}</span>
-                        <span class="post-category">${post.category.replace('-', ' ').toUpperCase()}</span>
-                    </div>
-                    <h2 class="post-title">${post.title}</h2>
-                    <p class="post-excerpt">${post.excerpt}</p>
-                    <a href="#" class="read-more" onclick="event.stopPropagation(); showPost(${post.id})">
-                        Read More →
-                    </a>
-                </article>
-            `).join('');
-        }
-
-        function renderRecentPosts() {
-            const container = document.getElementById('recent-posts');
-            const recentPosts = blogPosts.slice(0, 3);
-            
-            container.innerHTML = recentPosts.map(post => `
-                <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
-                    <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                        <a href="#" onclick="showPost(${post.id})" style="color: var(--text-dark); text-decoration: none; line-height: 1.4;">
-                            ${post.title}
-                        </a>
-                    </h4>
-                    <span style="font-size: 0.75rem; color: var(--primary-color);">${post.date}</span>
-                </div>
-            `).join('');
-        }
-
-        function showPost(postId) {
-            const post = blogPosts.find(p => p.id === postId);
-            if (!post) return;
-
-            document.getElementById('blog-home').style.display = 'none';
-            document.getElementById('post-content').classList.add('active');
-            document.getElementById('post-body').innerHTML = post.content;
-            
-            // Update URL without page reload
-            window.history.pushState({postId}, '', `#post-${postId}`);
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-
         function showBlogHome() {
             document.getElementById('blog-home').style.display = 'block';
             document.getElementById('post-content').classList.remove('active');
             
             // Update URL
             window.history.pushState({}, '', '#blog');
-        }
-
-        function filterByCategory(category) {
-            currentCategory = category;
-            currentPosts = blogPosts.filter(post => post.category === category);
-            renderPosts(currentPosts);
         }
 
         function setupSearch() {
@@ -636,8 +472,6 @@ print(f"Model R² score: {model.score(X_scaled, y):.3f}")
                         post.tags.some(tag => tag.toLowerCase().includes(query))
                     );
                 }
-                
-                renderPosts(currentPosts);
             });
         }
 
