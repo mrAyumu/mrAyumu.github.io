@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seth Ayumu - Petroleum Engineering & Data Analytics</title>
+    <title>Seth Ayumu - Management Consultant | Oil & Gas Strategy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="auxilaries/logo_white_bg.png">
+    <link rel="icon" type="image/jpg" href="auxilaries/logo_white_bg.png">
     <style>
-        /* CSS Reset and Base Styles */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         :root {
             --primary-color: #88b5c8;
             --secondary-color: #33313b;
@@ -73,28 +66,6 @@
             to { transform: scaleX(1); }
         }
 
-        .resume-actions {
-          display: flex;
-          gap: 15px;
-          margin: 20px 0;
-          justify-content: center;
-        }
-        .btn-primary, .btn-secondary {
-          padding: 12px 24px;
-          border-radius: 5px;
-          text-decoration: none;
-          font-weight: bold;
-          transition: all 0.3s;
-          display: inline-block;
-        }
-        .btn-primary {
-          background: #007bff;
-          color: white;
-        }
-        
-        .btn-primary:hover {
-          background: #0056b3;
-        }
         .hero-content {
             position: relative;
             z-index: 10;
@@ -181,6 +152,33 @@
             gap: 0.5rem;
         }
 
+        .availability-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .availability-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .accent-line {
             width: 60px;
             height: 3px;
@@ -210,7 +208,7 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.7;
+            opacity: 0.3;
         }
 
         .about-overlay {
@@ -219,7 +217,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--bg-overlay) 0%, rgba(255, 255, 255, 0.5) 100%);
+            background: linear-gradient(135deg, var(--bg-overlay) 0%, rgba(255, 255, 255, 0.7) 100%);
             z-index: 2;
         }
 
@@ -272,6 +270,37 @@
             color: var(--secondary-color);
         }
 
+        .highlight-metrics {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
         /* Projects Section */
         .projects-section {
             padding: 6rem 2rem;
@@ -304,16 +333,42 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
         .project-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--secondary-color);
+            flex: 1;
+        }
+
+        .impact-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .client-info {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 500;
             margin-bottom: 1rem;
         }
 
         .project-description {
             color: var(--text-dark);
             margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
         .project-tech {
@@ -328,22 +383,8 @@
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 500;
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition-smooth);
-        }
-
-        .project-link:hover {
-            color: var(--secondary-color);
         }
 
         /* Footer */
@@ -415,18 +456,9 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        /* Smooth scrolling and performance optimizations */
-        .hero-container, .about-section {
-            will-change: transform;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -441,15 +473,10 @@
             <div class="stripe"></div>
             <div class="stripe"></div>
         </div>
-        <div class="resume-actions">
-            <a href="auxilaries/Seth Ayumu_Resume_2025.pdf" target="_blank" class="btn-primary">
-                👀 View Resume
-            </a>
-        </div>
         
         <div class="hero-content">
             <div class="profile-section">
-                <img src="auxilaries/Photo_Seth-removebg.png" alt="Seth Ayumu - Petroleum Engineer and Data Analyst" class="profile-photo">
+                <img src="auxilaries/Photo_Seth-removebg.png" alt="Seth Ayumu - Management Consultant specializing in Oil & Gas Strategy" class="profile-photo">
                 <div class="social-links">
                     <a href="https://linkedin.com/in/sethayumu" aria-label="LinkedIn Profile">
                         <img src="auxilaries/linkedin-3-512.png" alt="LinkedIn">
@@ -462,11 +489,15 @@
             
             <div class="hero-text">
                 <h1 class="hero-headline">
-                    Turning Field-Scale Production Data into Impactful, Actionable Insights
+                    Transforming Oil & Gas Operations Through Strategic Analytics & Process Optimization
                 </h1>
                 <p class="hero-subheadline">
-                    🛢️ Petroleum Engineering Grad Student | 📊 Data Analyst | 💪🏿 Community Builder
+                    🏢 Management Consultant | ⚡ Operations Research Specialist | 🛢️ Energy Sector Expert
                 </p>
+                <div class="availability-badge">
+                    <div class="availability-dot"></div>
+                    Open to New Opportunities
+                </div>
                 <div class="accent-line"></div>
             </div>
         </div>
@@ -482,13 +513,35 @@
         <div class="about-content">
             <h2 class="section-title">About</h2>
             <div class="about-text">
-                <p><strong>I'm a petroleum engineer with a focus on reservoir characterization, CO₂ EOR, and data-driven field optimization.</strong></p>
+                <p><strong>I'm a management consultant with deep expertise in oil & gas operations, specializing in supply chain optimization, data systems implementation, and strategic decision-making frameworks.</strong></p>
                 
-                <p><strong>I specialize in transforming large-scale production data into actionable insights—using geostatistics, spatial analysis, and physics-informed modeling to improve decision-making in oil and gas field development.</strong></p>
+                <p><strong>My unique combination of petroleum engineering knowledge and advanced analytics enables me to deliver transformative solutions that bridge technical operations with business strategy. I excel at translating complex reservoir data into actionable business insights that drive operational efficiency and profitability.</strong></p>
                 
-                <p><strong>My passion lies in applying modern data science to traditional petroleum engineering challenges. I recently presented my work at the SPE Canadian Energy Technology Conference, where I introduced a novel approach to correlating CO₂ EOR performance with geological features—laying the groundwork for a product I hope to continue building with future collaborators.</strong></p>
+                <div class="highlight-metrics">
+                    <p><strong>Recent project highlights demonstrate measurable impact across the energy value chain:</strong></p>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value">15%</div>
+                            <div class="metric-label">Cost Reduction</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">10×</div>
+                            <div class="metric-label">Process Speed</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">90%</div>
+                            <div class="metric-label">Data Accuracy</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">50+</div>
+                            <div class="metric-label">Research Sources</div>
+                        </div>
+                    </div>
+                </div>
                 
-                <p><strong>Whether it's fracture mapping, building interactive analysis tools, or guiding CO₂ EOR strategies, I bring clarity, precision, and a deep commitment to innovation.</strong></p>
+                <p><strong>Currently pursuing advanced research in CO₂ Enhanced Oil Recovery economics, I recently presented pioneering work at the SPE Canadian Energy Technology Conference 2025. My framework for correlating geological features with economic performance has significant adoption potential across the Western Canadian energy sector.</strong></p>
+                
+                <p><strong>I bring a consultant's strategic mindset with an engineer's technical precision, delivering solutions that are both analytically rigorous and commercially viable. Whether optimizing supply chains, implementing digital transformation initiatives, or developing strategic decision frameworks, I consistently deliver measurable business value.</strong></p>
             </div>
         </div>
     </section>
@@ -496,47 +549,58 @@
     <!-- Projects Section -->
     <section class="projects-section" id="projects">
         <div class="projects-container">
-            <h2 class="section-title" style="text-align: center;">Featured Projects</h2>
+            <h2 class="section-title" style="text-align: center;">Featured Consulting Projects</h2>
             
             <div class="projects-grid">
                 <div class="project-card">
-                    <h3 class="project-title">CO₂ EOR Performance Analysis</h3>
+                    <div class="project-header">
+                        <h3 class="project-title">Supply Chain Optimization</h3>
+                        <span class="impact-badge">15% Cost Reduction</span>
+                    </div>
+                    <div class="client-info">Client: DAAB Inc. | Tool: LINDO Operations Research</div>
                     <p class="project-description">
-                        Developed a novel correlation framework between CO₂ Enhanced Oil Recovery performance and geological features, presented at <strong>SPE Canadian Energy Technology Conference 2025</strong>.
+                        Led comprehensive supply chain network optimization across 12 distribution centers. Developed linear programming models, conducted scenario analysis, and delivered phased implementation roadmap with ongoing monitoring framework.
                     </p>
                     <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Geostatistics</span>
-                        <span class="tech-tag">Reservoir Modeling</span>
+                        <span class="tech-tag">Operations Research</span>
+                        <span class="tech-tag">LINDO Software</span>
+                        <span class="tech-tag">Supply Chain</span>
+                        <span class="tech-tag">Cost Optimization</span>
                     </div>
-                    <a href="https://onepetro.org/specet/proceedings-abstract/25CET/25CET/D011S001R004/644541" class="project-link"> Read Abstract →</a>
                 </div>
                 
                 <div class="project-card">
-                    <h3 class="project-title">Interactive Fracture Mapping Tool</h3>
+                    <div class="project-header">
+                        <h3 class="project-title">Municipal Digital Transformation</h3>
+                        <span class="impact-badge">10× Speed Gain</span>
+                    </div>
+                    <div class="client-info">Client: Akuapem North Municipal Assembly</div>
                     <p class="project-description">
-                        Built an interactive visualization platform for detecting fracture networks and their impact on CO₂ EOR & Sequestration in Naturally Fractured Reservoirs.
+                        Transformed paper-based building permit system through process reengineering, database design, and change management. Eliminated 80% of paper usage while improving data accuracy by 90%+ through automated validation.
                     </p>
                     <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Spatial Analysis</span>
-                        <span class="tech-tag">Data Visualization</span>
+                        <span class="tech-tag">Process Optimization</span>
+                        <span class="tech-tag">Database Design</span>
+                        <span class="tech-tag">Change Management</span>
+                        <span class="tech-tag">Digital Systems</span>
                     </div>
-                    <a href="#" class="project-link">View →</a>
                 </div>
                 
                 <div class="project-card">
-                    <h3 class="project-title">Field Production Optimization Dashboard</h3>
+                    <div class="project-header">
+                        <h3 class="project-title">CO₂ EOR Economic Framework</h3>
+                        <span class="impact-badge">SPE Published</span>
+                    </div>
+                    <div class="client-info">Energy Sector Research | Python Data Mining</div>
                     <p class="project-description">
-                        Designed and implemented a real-time dashboard for monitoring field-scale production metrics and automated decision support systems.
+                        Developed pioneering framework correlating geological characteristics with CO₂ EOR economic performance. Synthesized 50+ research sources, created predictive models, and presented findings at SPE Conference 2025.
                     </p>
                     <div class="project-tech">
-                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Energy Economics</span>
+                        <span class="tech-tag">Statistical Modeling</span>
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Time Series Analysis</span>
-                        <span class="tech-tag">API Development</span>
+                        <span class="tech-tag">Strategic Analysis</span>
                     </div>
-                    <a href="#" class="project-link">View Details →</a>
                 </div>
             </div>
         </div>
@@ -546,64 +610,8 @@
     <footer class="footer">
         <div class="footer-content">
             <a href="blogsite.html" class="cta-link">View My Blog</a>
-            <a href="https://calendly.com/sethayumu/30min" class="cta-link">Let's Have a Coffee Chat!</a>
+            <a href="https://calendly.com/sethayumu/30min" class="cta-link">Let's Schedule A Coffee Chat!</a>
         </div>
     </footer>
-
-    <script>
-        // Smooth scrolling for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe project cards for scroll animations
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Performance optimization: Pause video when not visible
-        const video = document.querySelector('.video-background');
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
-            });
-        }, { threshold: 0.5 });
-
-        if (video) {
-            videoObserver.observe(video);
-        }
-    </script>
 </body>
 </html>
