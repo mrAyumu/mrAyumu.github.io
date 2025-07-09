@@ -1,0 +1,53 @@
+yaml
+# Site settings
+title: "Seth Ayumu"
+description: "Petroleum Engineering & Data Analytics - Insights on management consulting, petroleum engineering, data analytics, and CO₂ EOR and sequestration"
+url: "https://sethayumu.github.io"
+baseurl: ""
+
+# Personal info
+author:
+  name: "Seth Ayumu"
+  email: "sethayumu@example.com"
+  linkedin: "sethayumu"
+  instagram: "wofa_seth"
+
+# Blog settings
+permalink: /:year/:month/:day/:title/
+paginate: 6
+paginate_path: "/page:num/"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Collections
+collections:
+  posts:
+    output: true
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
