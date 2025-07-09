@@ -1,0 +1,101 @@
+html
+---
+layout: default
+---
+
+<style>
+    /* Include same CSS as blog page */
+    /* ... (same CSS from blog page) ... */
+</style>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav-container">
+        <a href="/" class="logo">Seth Ayumu</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/#projects">Projects</a></li>
+            <li><a href="https://calendly.com/sethayumu/30min">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="blog-container">
+    <main class="main-content">
+        <header class="blog-header">
+            <h1 class="blog-title">{{ page.category | replace: '-', ' ' | capitalize }}</h1>
+            <p class="blog-subtitle">
+                Posts in the {{ page.category | replace: '-', ' ' }} category
+            </p>
+        </header>
+
+        <div class="posts-grid">
+            {% assign category_posts = site.categories[page.category] %}
+            {% if category_posts.size > 0 %}
+                {% for post in category_posts %}
+                    <article class="post-card">
+                        <div class="post-meta">
+                            <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+                            <span class="post-category">{{ post.category | replace: '-', ' ' }}</span>
+                        </div>
+                        
+                        <h2 class="post-title">
+                            <a href="{{ post.url }}" style="text-decoration: none; color: inherit;">{{ post.title }}</a>
+                        </h2>
+                        
+                        {% if post.excerpt %}
+                            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+                        {% endif %}
+                        
+                        {% if post.tags and post.tags.size > 0 %}
+                            <div class="post-tags">
+                                {% for tag in post.tags %}
+                                    <span class="tag">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <a href="{{ post.url }}" class="read-more">Read More →</a>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <div class="no-posts">
+                    <h3>No posts in this category yet!</h3>
+                    <p><a href="/blog">← Back to all posts</a></p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Same sidebar as blog page -->
+    <aside class="sidebar">
+        <!-- Categories Widget -->
+        <div class="widget">
+            <h3 class="widget-title">All Categories</h3>
+            <ul class="categories-list">
+                {% for category in site.categories %}
+                    <li>
+                        <a href="/category/{{ category[0] }}" {% if page.category == category[0] %}style="color: var(--primary-color); font-weight: 600;"{% endif %}>
+                            {{ category[0] | replace: '-', ' ' }}
+                            <span class="post-count">{{ category[1].size }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Recent Posts Widget -->
+        <div class="widget">
+            <h3 class="widget-title">Recent Posts</h3>
+            <ul class="recent-posts-list">
+                {% for post in site.posts limit:5 %}
+                    <li>
+                        <a href="{{ post.url }}" class="recent-post-title">{{ post.title }}</a>
+                        <div class="recent-post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>

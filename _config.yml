@@ -1,14 +1,14 @@
 yaml
 # Site settings
 title: "Seth Ayumu"
-description: "Petroleum Engineering & Data Analytics - Insights on management consulting, petroleum engineering, data analytics, and CO₂ EOR and sequestration"
-url: "https://sethayumu.github.io"
+description: "Petroleum Engineering & Data Analytics - Insights on management consulting in the oil and gas industry, data analytics, and CO₂ EOR and sequestration"
+url: "https://mrayumu.github.io/blogsite.html"
 baseurl: ""
 
 # Personal info
 author:
   name: "Seth Ayumu"
-  email: "sethayumu@example.com"
+  email: "sayumu@ualberta.ca"
   linkedin: "sethayumu"
   instagram: "wofa_seth"
 
