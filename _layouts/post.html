@@ -308,7 +308,6 @@ layout: default
                 <span class="post-category">{{ page.category | replace: '-', ' ' }}</span>
             {% endif %}
             <span>{{ content | number_of_words }} words</span>
-            <span>{{ content | reading_time }}</span>
         </div>
         
         {% if page.tags and page.tags.size > 0 %}
