@@ -22,7 +22,7 @@ Positioning choices determine not only which activities a company will perform a
 
 Finally, I like to learn *via negativa* so I will be looking at what strategy is **NOT** in order to arrive at a more refined sculpture of what strategy is/should be especially in this age of artificial intelligence. 
 We have to understand that best practices are not strategy. why? Because they are easily emulated by competing firms in the industry. This leads to competitive convergence within the industry through benchmarking, where all oil and gas firms end up 'same-same' with no unique strategy about them. This is not a bad thing for the industry as a whole because it persistently shifts the productivity frontiers to the right at a very fast pace. 
-![Change in productivity frontiers due to emerging best practices](auxiliaries/post_images/productivity-frontier-diagram.png)
+![Change in productivity frontiers due to emerging best practices](/auxiliaries/post_images/productivity-frontier-diagram.png)
 
 The problem, however, is that for individual oil and gas firms that may have pioneered particular methods for effective operations, they get frustrated when they repeatedly discover that their pioneering methods were not tickets to their sustained profitability against competitors through strategic positioning within the industry. Their attempts at strategic positioning only end up increasing operational effectiveness for all firms within the industry, without improvement to their relative strategic positions within the industry.
 
