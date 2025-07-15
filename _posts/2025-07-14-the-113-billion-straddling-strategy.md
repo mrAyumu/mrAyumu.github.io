@@ -1,6 +1,6 @@
 ---
 title: "The $113 Billion Straddling Strategy: Why Oil Giants Are Making Porter's Biggest Mistake"
-date: "2025-07-15"
+date: "2025-07-14"
 category: "Management consulting"
 tags: ["Strategy", "operational effectiveness"]
 excerpt: "When ExxonMobil dropped $60 billion on Pioneer and Chevron followed with $53 billion for Hess, the business press celebrated these as "strategic" moves. But if you look through Michael Porter's lens, these mega-mergers represent something else entirely"
