@@ -3,7 +3,7 @@ title: "The $113 Billion Straddling Strategy: Why Oil Giants Are Making Porter's
 date: "2025-07-14"
 category: "Management consulting"
 tags: ["Strategy", "operational effectiveness"]
-excerpt: "When ExxonMobil dropped $60 billion on Pioneer and Chevron followed with $53 billion for Hess, the business press celebrated these as "strategic" moves. But if you look through Michael Porter's lens, these mega-mergers represent something else entirely"
+excerpt: "When ExxonMobil dropped $60 billion on Pioneer and Chevron followed with $53 billion for Hess, the business press celebrated these as 'strategic' moves. But if you look through Michael Porter's lens, these mega-mergers represent something else entirely"
 ---
 When ExxonMobil dropped $60 billion on Pioneer and Chevron followed with $53 billion for Hess, the business press celebrated these as "strategic" moves. But if you look through Michael Porter's lens, these mega-mergers represent something else entirely: textbook examples of companies avoiding the hard choices that real strategy demands.
 Porter would call this "straddling" - attempting to serve multiple strategic positions simultaneously rather than making the trade-offs necessary for sustainable competitive advantage. And it's exactly what's happening in oil and gas right now.
