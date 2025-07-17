@@ -8,7 +8,7 @@ excerpt: "When ExxonMobil dropped $60 billion on Pioneer and Chevron followed wi
 When ExxonMobil dropped $60 billion on Pioneer and Chevron followed with $53 billion for Hess, the business press celebrated these as "strategic" moves. But if you look through Michael Porter's lens, these mega-mergers represent something else entirely: textbook examples of companies avoiding the hard choices that real strategy demands.
 Porter would call this "straddling" - attempting to serve multiple strategic positions simultaneously rather than making the trade-offs necessary for sustainable competitive advantage. And it's exactly what's happening in oil and gas right now.
 
-##What These Deals Actually Reveal
+## What These Deals Actually Reveal
 Let's examine what these companies actually said they were buying:
 ExxonMobil's justification: "Transforms ExxonMobil's upstream portfolio, more than doubling the company's Permian footprint and creating an industry-leading, high-quality, high-return undeveloped U.S. unconventional inventory position"
 Chevron's rationale: "The acquisition of Hess upgrades and diversifies Chevron's already advantaged portfolio. The Stabroek block in Guyana is an extraordinary asset with industry leading cash margins and low carbon intensity"
@@ -21,7 +21,7 @@ Here's what's actually happening with these deals:
 - Technology Straddling: Rather than choosing between conventional and unconventional expertise, or between exploration and production optimization, these companies are attempting to master all approaches simultaneously.
 Market Straddling: ExxonMobil's CEO explicitly stated they're "doubling down on our organizations and capabilities" rather than making focused bets on specific customer segments or value propositions.
 
-##The Numbers Tell a Different Story
+## The Numbers Tell a Different Story
 Here's what makes this particularly problematic: ExxonMobil's U.S. upstream segment "has spent $38 billion on capital projects over the past five years, while recording an overall earnings loss over the period". This makes it "by far the worst performer in the company's portfolio, and the company's only segment that has lost money over the past five years."
 So ExxonMobil's response to poor performance in U.S. upstream? Double down with a $60 billion acquisition to get more of the same. Pioneer's stock "has trailed the market over the last decade, increasing just 17%—vs. a 148% increase in the S&P 500".
 The market's reaction was telling: "ExxonMobil's stock price is down more than 10 points since the beginning of last week—meaning that the company's market capitalization has fallen by more than $40 billion since rumors of a Pioneer acquisition started to circulate".
