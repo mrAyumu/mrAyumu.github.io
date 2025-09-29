@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mind spillage ✍🏿</title>
+    <link rel="icon" type="image/png" href="logo_white_bg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@300;400;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink-blue: #1e293b;
+            --thought-purple: #6366f1;
+            --spark-yellow: #fbbf24;
+            --whisper-gray: #94a3b8;
+            --paper-white: #fefefe;
+            --mind-fog: #f1f5f9;
+            --shadow-thought: rgba(99, 102, 241, 0.1);
+            --border-sketch: #e2e8f0;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--ink-blue);
+            background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+            min-height: 100vh;
+        }
+
+        /* Floating thought bubbles */
+        .thought-bubble {
+            position: fixed;
+            background: var(--shadow-thought);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .thought-bubble:nth-child(1) { 
+            width: 80px; height: 80px; 
+            top: 20%; left: 10%; 
+            animation-delay: 0s; 
+        }
+        .thought-bubble:nth-child(2) { 
+            width: 120px; height: 120px; 
+            top: 60%; right: 15%; 
+            animation-delay: -5s; 
+        }
+        .thought-bubble:nth-child(3) { 
+            width: 60px; height: 60px; 
+            top: 80%; left: 20%; 
+            animation-delay: -10s; 
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            33% { transform: translateY(-20px) rotate(2deg); opacity: 0.6; }
+            66% { transform: translateY(10px) rotate(-1deg); opacity: 0.4; }
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(254, 254, 254, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid transparent;
+            background-image: linear-gradient(white, white), 
+                            linear-gradient(90deg, var(--thought-purple), var(--spark-yellow));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav:hover {
+            box-shadow: 0 8px 32px var(--shadow-thought);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--thought-purple), var(--ink-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "🧠";
+            position: absolute;
+            right: -35px;
+            top: -2px;
+            font-size: 1.2rem;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--ink-blue);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--thought-purple), var(--spark-yellow));
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--thought-purple);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* Blog Layout */
+        .blog-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 7rem 2rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content {
+            min-height: 100vh;
+        }
+
+        .blog-header {
+            margin-bottom: 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .blog-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--ink-blue), var(--thought-purple), var(--spark-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        .blog-title::before {
+            content: "💭";
+            position: absolute;
+            left: -60px;
+            top: 10px;
+            font-size: 2rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .blog-title::after {
+            content: "💡";
+            position: absolute;
+            right: -60px;
+            top: 10px;
+            font-size: 2rem;
+            animation: float 4s ease-in-out infinite reverse;
+        }
+
+        .blog-subtitle {
+            font-size: 1.3rem;
+            color: var(--whisper-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            font-style: italic;
+            position: relative;
+        }
+
+        .thought-meter {
+            margin: 2rem auto;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .meter-label {
+            font-size: 0.9rem;
+            color: var(--whisper-gray);
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .meter-bar {
+            height: 8px;
+            background: var(--mind-fog);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--thought-purple), var(--spark-yellow));
+            width: 73%;
+            border-radius: 20px;
+            animation: thoughtFlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes thoughtFlow {
+            0% { width: 73%; }
+            100% { width: 85%; }
+        }
+
+        /* Post Cards with Ruled Paper Effect */
+        .posts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .post-card {
+            background: 
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 31px,
+                    #e0e7ff 31px,
+                    #e0e7ff 32px
+                ),
+                linear-gradient(
+                    90deg,
+                    #fef2f2 0px,
+                    #fef2f2 60px,
+                    transparent 60px
+                ),
+                var(--paper-white);
+            border-radius: 20px;
+            padding: 2.5rem 2.5rem 2.5rem 4rem;
+            box-shadow: 0 4px 40px rgba(30, 41, 59, 0.08);
+            border: 1px solid var(--border-sketch);
+            position: relative;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--thought-purple), var(--spark-yellow));
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+
+        .post-card::after {
+            content: '';
+            position: absolute;
+            left: 60px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #f87171;
+            opacity: 0.6;
+        }
+
+        .post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            font-family: 'Kalam', cursive;
+            font-weight: 400;
+        }
+
+        .post-date {
+            color: var(--thought-purple);
+            font-weight: 500;
+        }
+
+        .post-category {
+            background: linear-gradient(135deg, var(--thought-purple), var(--spark-yellow));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 25px;
+            font-weight: 500;
+            text-transform: capitalize;
+            box-shadow: 0 2px 10px var(--shadow-thought);
+        }
+
+        .thought-type {
+            background: var(--mind-fog);
+            color: var(--ink-blue);
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .post-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--ink-blue);
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            position: relative;
+            font-family: 'Caveat', cursive;
+            transform: rotate(-0.5deg);
+        }
+
+        .post-excerpt {
+            color: var(--ink-blue);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            font-family: 'Kalam', cursive;
+            font-weight: 400;
+            transform: rotate(0.2deg);
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: var(--mind-fog);
+            color: var(--ink-blue);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .tag:hover {
+            background: var(--thought-purple);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .read-more {
+            color: var(--thought-purple);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.05rem;
+            font-family: 'Kalam', cursive;
+            transition: var(--transition);
+            transform: rotate(-0.3deg);
+        }
+
+        .read-more::after {
+            content: "→";
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            color: var(--ink-blue);
+            transform: translateX(5px) rotate(-0.3deg);
+        }
+
+        .read-more:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Handwritten touches and paper texture */
+        .handwritten-touch {
+            position: relative;
+        }
+
+        .handwritten-touch::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -10px;
+            right: -10px;
+            bottom: -5px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M2,2 Q50,8 98,2 Q92,50 98,98 Q50,92 2,98 Q8,50 2,2 Z' fill='none' stroke='%236366f1' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E") repeat;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .post-card:hover .handwritten-touch::before {
+            opacity: 1;
+        }
+
+        .paper-texture {
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 40% 70%, rgba(248, 113, 113, 0.03) 1px, transparent 1px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 7rem;
+            height: fit-content;
+        }
+
+        .widget {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 30px rgba(30, 41, 59, 0.08);
+            border: 1px solid var(--border-sketch);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--thought-purple), var(--spark-yellow));
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--ink-blue);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-widget .widget-title::before { content: "🔍"; }
+        .categories-widget .widget-title::before { content: "🗂️"; }
+        .recent-widget .widget-title::before { content: "⏰"; }
+        .tags-widget .widget-title::before { content: "🏷️"; }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-sketch);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--mind-fog);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--thought-purple);
+            background: white;
+            box-shadow: 0 0 20px var(--shadow-thought);
+        }
+
+        .categories-list,
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .categories-list li,
+        .recent-posts-list li {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .categories-list li:hover,
+        .recent-posts-list li:hover {
+            background: var(--mind-fog);
+            transform: translateX(5px);
+        }
+
+        .categories-list a {
+            color: var(--ink-blue);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+
+        .post-count {
+            background: var(--thought-purple);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .recent-post-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink-blue);
+            text-decoration: none;
+            line-height: 1.4;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: var(--whisper-gray);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Enhanced no posts message */
+        .no-posts {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--mind-fog);
+            border-radius: 20px;
+            border: 2px dashed var(--border-sketch);
+        }
+
+        .no-posts h3 {
+            color: var(--ink-blue);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-posts p {
+            color: var(--whisper-gray);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .no-posts::before {
+            content: "🤔";
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .thought-bubble { display: none; }
+            
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 6rem 1rem 4rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .blog-title {
+                font-size: 2.5rem;
+            }
+
+            .blog-title::before,
+            .blog-title::after {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Search functionality */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Extra creative touches */
+        .creativity-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--paper-white);
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px var(--shadow-thought);
+            font-size: 1.5rem;
+            animation: spin 10s linear infinite;
+            z-index: 1000;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating thought bubbles -->
+    <div class="thought-bubble"></div>
+    <div class="thought-bubble"></div>
+    <div class="thought-bubble"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="logo">Seth Ayumu</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">Mind Spillage</a></li>
+                <li><a href="/#projects">Projects</a></li>
+                <li><a href="https://calendly.com/sethayumu/30min">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Blog Container -->
+    <div class="blog-container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="blog-header">
+                <h1 class="blog-title">mind spillage</h1>
+                <p class="blog-subtitle">
+                    where thoughts escape the confines of my brain and find their way to you — some profound, some chaotic, all authentic
+                </p>
+                
+                <div class="thought-meter">
+                    <div class="meter-label">current thought intensity</div>
+                    <div class="meter-bar">
+                        <div class="meter-fill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="posts-grid">
+                <!-- Sample posts for demonstration -->
+                <article class="post-card handwritten-touch paper-texture">
+                    <div class="post-meta">
+                        <span class="post-date">2025-03-15</span>
+                        <span class="post-category">deep-dive</span>
+                        <span class="thought-type">💭 profound</span>
+                    </div>
+                    
+                    <h2 class="post-title">
+                        The Weight of Digital Memories
+                    </h2>
+                    
+                    <p class="post-excerpt">
+                        Sometimes I wonder if our digital footprints carry the same emotional weight as physical mementos. Do the photos in our cloud storage hold the same power as the ones we keep in dusty shoeboxes? A random 3 AM thought that turned into something deeper...
+                    </p>
+                    
+                    <div class="post-tags">
+                        <span class="tag">philosophy</span>
+                        <span class="tag">technology</span>
+                        <span class="tag">nostalgia</span>
+                        <span class="tag">3am-thoughts</span>
+                    </div>
+                    
+                    <a href="#" class="read-more">dive deeper</a>
+                </article>
+
+                <article class="post-card handwritten-touch paper-texture">
+                    <div class="post-meta">
+                        <span class="post-date">2025-03-10</span>
+                        <span class="post-category">random-beauty</span>
+                        <span class="thought-type">✨ beautiful</span>
+                    </div>
+                    
+                    <h2 class="post-title">
+                        Coffee Shop Conversations I'll Never Have
+                    </h2>
+                    
+                    <p class="post-excerpt">
+                        There's this person who sits two tables away every Tuesday at 2 PM. They always order the same drink, always sit alone, always seem lost in thought. I've invented an entire life story for them based on their coffee choice and the way they stir their drink...
+                    </p>
+                    
+                    <div class="post-tags">
+                        <span class="tag">observations</span>
+                        <span class="tag">people-watching</span>
+                        <span class="tag">imagination</span>
+                        <span class="tag">coffee</span>
+                    </div>
+                    
+                    <a href="#" class="read-more">read more</a>
+                </article>
+
+                <article class="post-card handwritten-touch paper-texture">
+                    <div class="post-meta">
+                        <span class="post-date">2025-03-05</span>
+                        <span class="post-category">technical</span>
+                        <span class="thought-type">🔧 practical</span>
+                    </div>
+                    
+                    <h2 class="post-title">
+                        Why I Started Talking to My Code
+                    </h2>
+                    
+                    <p class="post-excerpt">
+                        It started as a joke, but debugging out loud has changed how I think about problems. Turns out rubber duck debugging works even better when you're having actual conversations with your functions. Here's what happened when I started treating my code like a friend...
+                    </p>
+                    
+                    <div class="post-tags">
+                        <span class="tag">coding</span>
+                        <span class="tag">debugging</span>
+                        <span class="tag">productivity</span>
+                        <span class="tag">humor</span>
+                    </div>
+                    
+                    <a href="#" class="read-more">explore</a>
+                </article>
+
+                <div class="no-posts" style="display: none;">
+                    <h3>The mind is temporarily quiet</h3>
+                    <p>But thoughts are brewing... check back soon for fresh mental spillage</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Widget -->
+            <div class="widget search-widget">
+                <h3 class="widget-title">Search Thoughts</h3>
+                <input type="text" class="search-box" placeholder="What's on your mind?" id="search-input">
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="widget categories-widget">
+                <h3 class="widget-title">Thought Categories</h3>
+                <ul class="categories-list">
+                    <li>
+                        <a href="#">
+                            deep-dive
+                            <span class="post-count">12</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            random-beauty
+                            <span class="post-count">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            technical
+                            <span class="post-count">15</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            3am-thoughts
+                            <span class="post-count">23</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            observations
+                            <span class="post-count">7</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Recent Posts Widget -->
+            <div class="widget recent-widget">
+                <h3 class="widget-title">Latest Spillage</h3>
+                <ul class="recent-posts-list">
+                    <li>
+                        <a href="#" class="recent-post-title">The Weight of Digital Memories</a>
+                        <div class="recent-post-date">March 15, 2025</div>
+                    </li>
+                    <li>
+                        <a href="#" class="recent-post-title">Coffee Shop Conversations I'll Never Have</a>
+                        <div class="recent-post-date">March 10, 2025</div>
+                    </li>
+                    <li>
+                        <a href="#" class="recent-post-title">Why I Started Talking to My Code</a>
+                        <div class="recent-post-date">March 5, 2025</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Popular Tags Widget -->
+            <div class="widget tags-widget">
+                <h3 class="widget-title">Popular Tags</h3>
+                <div class="post-tags">
+                    <span class="tag">3am-thoughts (23)</span>
+                    <span class="tag">philosophy (18)</span>
+                    <span class="tag">coding (15)</span>
+                    <span class="tag">observations (12)</span>
+                    <span class="tag">life (10)</span>
+                    <span class="tag">humor (8)</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Creativity indicator -->
+    <div class="creativity-indicator">🎨</div>
+
+    <!-- Enhanced Search Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const postCards = document.querySelectorAll('.post-card');
+            
+            if (searchInput && postCards.length > 0) {
+                searchInput.addEventListener('input', function(e) {
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    postCards.forEach(function(card) {
+                        const title = card.querySelector('.post-title').textContent.toLowerCase();
+                        const excerpt = card.querySelector('.post-excerpt');
+                        const excerptText = excerpt ? excerpt.textContent.toLowerCase() : '';
+                        const tags = card.querySelector('.post-tags');
+                        const tagsText = tags ? tags.textContent.toLowerCase() : '';
+                        
+                        const matchesSearch = query === '' || 
+                            title.includes(query) || 
+                            excerptText.includes(query) || 
+                            tagsText.includes(query);
+                        
+                        if (matchesSearch) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                    
+                    // Show/hide no results message
+                    const visiblePosts = document.querySelectorAll('.post-card:not(.hidden)');
+                    let noResultsMsg = document.querySelector('.no-search-results');
+                    
+                    if (query !== '' && visiblePosts.length === 0) {
+                        if (!noResultsMsg) {
+                            noResultsMsg = document.createElement('div');
+                            noResultsMsg.className = 'no-posts no-search-results';
+                            noResultsMsg.innerHTML = '<h3>No matching thoughts found</h3><p>Try different keywords or let your mind wander through all posts.</p>';
+                            document.querySelector('.posts-grid').appendChild(noResultsMsg);
+                        }
+                        noResultsMsg.style.display = 'block';
+                    } else if (noResultsMsg) {
+                        noResultsMsg.style.display = 'none';
+                    }
+                });
+            }
+
+            // Tag interaction
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const tagText = this.textContent.replace(/\s*\(\d+\)$/, '').trim();
+                    searchInput.value = tagText;
+                    searchInput.dispatchEvent(new Event('input'));
+                });
+            });
+
+            // Add some personality to the thought meter
+            setInterval(() => {
+                const meter = document.querySelector('.meter-fill');
+                if (meter) {
+                    const randomWidth = Math.floor(Math.random() * 20) + 70;
+                    meter.style.width = randomWidth + '%';
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
