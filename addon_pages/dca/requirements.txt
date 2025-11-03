@@ -1,0 +1,8 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pandas==2.1.3
+numpy==1.25.2
+scipy==1.11.4
+python-dateutil==2.8.2
+openpyxl==3.1.2
