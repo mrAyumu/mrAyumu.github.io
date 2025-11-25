@@ -521,7 +521,8 @@
         // Global variables
         let uploadedFiles = [];
         let analysisResults = null;
-        const API_BASE_URL = 'https://mrayumugithubio-dcatool.up.railway.app'; // We'll update this when we deploy the API
+        let currentSessionId=null;
+        const API_BASE_URL = 'https://mrayumugithubio-dcatool.up.railway.app'; // Will update this when the API is deployed
 
         // Tab switching
         function switchTab(tabName) {
@@ -593,6 +594,7 @@
             displayFileList();
             showSuccess(`${fileList.length} file(s) added successfully.`);
             updateAnalyzeButton();
+            
         }
 
         function displayFileList() {
