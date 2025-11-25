@@ -384,9 +384,7 @@
     <div class="container">
         <div class="header">
             <h1>Decline Curve Analysis Tool</h1>
-            <p>An intelligent petroleum engineering tool that eliminates manual decline curve analysis 
-                guesswork for field-scale production data. Automatically selects optimal decline models 
-                for each well and provides actionable insights for production forecasting.</p>
+            <p>An intelligent petroleum engineering tool that eliminates manual decline curve analysis guesswork for field-scale production data. Automatically selects optimal decline models for each well and provides actionable insights for production forecasting.</p>
         </div>
 
         <div class="main-panel">
@@ -401,7 +399,7 @@
                 <!-- Upload Tab -->
                 <div id="upload-tab" class="tab-panel active">
                     <div class="upload-section" id="upload-area">
-                        <h3>📁 Upload Production Data Files</h3>
+                        <h3>📂 Upload Production Data Files</h3>
                         <p>Drag and drop your CSV files here, or click to browse</p>
                         <input type="file" id="file-input" class="file-input" multiple accept=".csv" onchange="handleFileSelect(event)">
                         <button class="upload-btn" onclick="document.getElementById('file-input').click()">
@@ -521,8 +519,8 @@
         // Global variables
         let uploadedFiles = [];
         let analysisResults = null;
-        let currentSessionId=null;
-        const API_BASE_URL = = 'https://mrayumu.github.io/addon_pages/dca/main.py'; // Will update this when the API is deployed
+        let currentSessionId = null;
+        const API_BASE_URL = 'http://localhost:8000'; // Update this with your Railway URL
 
         // Tab switching
         function switchTab(tabName) {
@@ -531,7 +529,8 @@
             document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
             
             // Add active class to selected tab and panel
-            event.target.classList.add('active');
+            const clickedTab = event?.target || document.querySelector(`.nav-tab:nth-child(${tabName === 'upload' ? 1 : tabName === 'preview' ? 2 : tabName === 'analyze' ? 3 : 4})`);
+            if (clickedTab) clickedTab.classList.add('active');
             document.getElementById(tabName + '-tab').classList.add('active');
             
             // Update analyze button state
@@ -592,9 +591,9 @@
 
             uploadedFiles = [...uploadedFiles, ...fileList];
             displayFileList();
-            showSuccess(`${fileList.length} file(s) added successfully.`);
-            updateAnalyzeButton();
             
+            // Automatically upload files to API
+            uploadFilesToAPI();
         }
 
         function displayFileList() {
@@ -629,7 +628,71 @@
 
         function updateAnalyzeButton() {
             const button = document.getElementById('analyze-button');
-            button.disabled = uploadedFiles.length === 0;
+            button.disabled = !currentSessionId || uploadedFiles.length === 0;
+        }
+
+        // API Functions
+        async function uploadFilesToAPI() {
+            try {
+                const formData = new FormData();
+                uploadedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+
+                const response = await fetch(`${API_BASE_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Upload failed');
+                }
+
+                const result = await response.json();
+                currentSessionId = result.session_id;
+                
+                showSuccess(`Successfully uploaded ${uploadedFiles.length} file(s). ${result.total_wells} wells detected.`);
+                updateAnalyzeButton();
+                
+                // Display data preview
+                displayDataPreview(result);
+                
+            } catch (error) {
+                showError(`Upload failed: ${error.message}`);
+                console.error('Upload error:', error);
+            }
+        }
+
+        function displayDataPreview(uploadResult) {
+            const previewDiv = document.getElementById('data-preview');
+            
+            const html = `
+                <h4>Data Preview</h4>
+                <p><strong>Total Records:</strong> ${uploadResult.total_rows}</p>
+                <p><strong>Total Wells:</strong> ${uploadResult.total_wells}</p>
+                <p><strong>Columns:</strong> ${uploadResult.columns.join(', ')}</p>
+                
+                <table class="preview-table">
+                    <thead>
+                        <tr>
+                            ${uploadResult.columns.map(col => `<th>${col}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${uploadResult.preview_data.slice(0, 5).map(row => `
+                            <tr>
+                                ${uploadResult.columns.map(col => `<td>${row[col] || 'N/A'}</td>`).join('')}
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <p style="margin-top: 10px; color: #6c757d; font-size: 0.9rem;">
+                    Showing first 5 rows of ${uploadResult.total_rows} total records
+                </p>
+            `;
+            
+            previewDiv.innerHTML = html;
         }
 
         // Message display functions
@@ -745,47 +808,144 @@
 
             const statsGrid = document.getElementById('stats-grid');
             const downloadSection = document.getElementById('download-section');
+            const summary = analysisResults.summary;
+
+            // Get model counts from model_distribution
+            const modelDist = summary.model_distribution || {};
+            const exponentialCount = modelDist.exponential || 0;
+            const hyperbolicCount = modelDist.hyperbolic || 0;
+            const harmonicCount = modelDist.harmonic || 0;
 
             // Display summary statistics
             statsGrid.innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-value">${analysisResults.summary.total_wells}</div>
+                    <div class="stat-value">${summary.total_wells}</div>
                     <div class="stat-label">Total Wells Analyzed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${analysisResults.summary.avg_r2.toFixed(3)}</div>
+                    <div class="stat-value">${summary.avg_r2.toFixed(3)}</div>
                     <div class="stat-label">Average R² Score</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${analysisResults.summary.exponential_count}</div>
+                    <div class="stat-value">${exponentialCount}</div>
                     <div class="stat-label">Exponential Models</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${analysisResults.summary.hyperbolic_count}</div>
+                    <div class="stat-value">${hyperbolicCount}</div>
                     <div class="stat-label">Hyperbolic Models</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${harmonicCount}</div>
+                    <div class="stat-label">Harmonic Models</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${summary.r2_distribution.above_0_9 || 0}</div>
+                    <div class="stat-label">Wells with R² > 0.9</div>
                 </div>
             `;
 
             // Show download section
             downloadSection.style.display = 'block';
 
-            // Update chart (placeholder for now)
+            // Update chart with R² distribution
             const chartContainer = document.getElementById('chart-container');
             chartContainer.innerHTML = `
-                <div style="text-align: center;">
-                    <h4>Model Distribution</h4>
-                    <p>Exponential: ${analysisResults.summary.exponential_count} wells</p>
-                    <p>Hyperbolic: ${analysisResults.summary.hyperbolic_count} wells</p>
-                    <p>Harmonic: ${analysisResults.summary.harmonic_count} wells</p>
-                    <br>
-                    <p style="color: #6c757d; font-style: italic;">Interactive charts will be available in the next update</p>
+                <div style="width: 100%; text-align: center;">
+                    <h4>Model Distribution & R² Statistics</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px; text-align: left;">
+                        <div>
+                            <h5 style="color: #667eea; margin-bottom: 15px;">Model Types</h5>
+                            <p><strong>Exponential:</strong> ${exponentialCount} wells (${((exponentialCount/summary.total_wells)*100).toFixed(1)}%)</p>
+                            <p><strong>Hyperbolic:</strong> ${hyperbolicCount} wells (${((hyperbolicCount/summary.total_wells)*100).toFixed(1)}%)</p>
+                            <p><strong>Harmonic:</strong> ${harmonicCount} wells (${((harmonicCount/summary.total_wells)*100).toFixed(1)}%)</p>
+                        </div>
+                        <div>
+                            <h5 style="color: #667eea; margin-bottom: 15px;">R² Score Distribution</h5>
+                            <p><strong>R² > 0.9:</strong> ${summary.r2_distribution.above_0_9 || 0} wells (${((summary.r2_distribution.above_0_9/summary.total_wells)*100).toFixed(1)}%)</p>
+                            <p><strong>R² > 0.8:</strong> ${summary.r2_distribution.above_0_8 || 0} wells (${((summary.r2_distribution.above_0_8/summary.total_wells)*100).toFixed(1)}%)</p>
+                            <p><strong>R² > 0.7:</strong> ${summary.r2_distribution.above_0_7 || 0} wells (${((summary.r2_distribution.above_0_7/summary.total_wells)*100).toFixed(1)}%)</p>
+                            <p><strong>R² ≤ 0.7:</strong> ${summary.r2_distribution.below_0_7 || 0} wells (${((summary.r2_distribution.below_0_7/summary.total_wells)*100).toFixed(1)}%)</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <h5 style="color: #667eea; margin-bottom: 15px;">R² Statistics</h5>
+                        <p><strong>Mean:</strong> ${summary.r2_statistics.mean.toFixed(3)} | 
+                           <strong>Median:</strong> ${summary.r2_statistics.median.toFixed(3)} | 
+                           <strong>Min:</strong> ${summary.r2_statistics.min.toFixed(3)} | 
+                           <strong>Max:</strong> ${summary.r2_statistics.max.toFixed(3)}</p>
+                    </div>
+                    ${analysisResults.sample_wells ? `
+                        <div style="margin-top: 30px;">
+                            <h5 style="color: #667eea; margin-bottom: 15px;">Sample Wells (First 10)</h5>
+                            <table class="preview-table">
+                                <thead>
+                                    <tr>
+                                        <th>Well UWI</th>
+                                        <th>Model Type</th>
+                                        <th>R² Score</th>
+                                        <th>Initial Rate</th>
+                                        <th>Decline Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${analysisResults.sample_wells.map(well => `
+                                        <tr>
+                                            <td>${well.UWI}</td>
+                                            <td>${well.Model_Type}</td>
+                                            <td>${well.R_squared.toFixed(3)}</td>
+                                            <td>${well.Initial_Rate.toFixed(2)}</td>
+                                            <td>${well.Decline_Rate.toFixed(3)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
 
-        function downloadFile(type) {
-            // Placeholder for download functionality
-            alert(`Download ${type} file - This will be implemented with the API backend`);
+        async function downloadFile(type) {
+            if (!currentSessionId) {
+                showError('No analysis results available to download.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/download/${currentSessionId}/${type}`);
+                
+                if (!response.ok) {
+                    throw new Error('Download failed');
+                }
+
+                // Get filename from Content-Disposition header or use default
+                const contentDisposition = response.headers.get('Content-Disposition');
+                let filename = `dca_${type}_results.csv`;
+                
+                if (contentDisposition) {
+                    const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                    if (filenameMatch) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                // Download the file
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                showSuccess(`Downloaded ${filename} successfully!`);
+
+            } catch (error) {
+                showError(`Download failed: ${error.message}`);
+                console.error('Download error:', error);
+            }
         }
 
         // Initialize the application
