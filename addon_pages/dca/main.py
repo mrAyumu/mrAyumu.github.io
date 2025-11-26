@@ -272,7 +272,7 @@ analysis_sessions = {}
 @app.get("/", response_class=MTMLResponse)
 async def root():
     """Serve the frontend HTML"""
-    with open('index.html', 'r') as f:
+    with open('dcafrontend.html', 'r') as f:
         return f.read()
 
 @app.post("/upload")
