@@ -269,7 +269,7 @@ app.add_middleware(
 # Global storage for analysis results
 analysis_sessions = {}
 
-@app.get("/", response_class=MTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def root():
     """Serve the frontend HTML"""
     with open('dcafrontend.html', 'r') as f:
