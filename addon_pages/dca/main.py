@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
-from fastapi.responses import StreamingResponse, HTMLResponse
+from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import pandas as pd
@@ -269,11 +269,10 @@ app.add_middleware(
 # Global storage for analysis results
 analysis_sessions = {}
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 async def root():
     """Serve the frontend HTML"""
-    with open('dcafrontend.html', 'r') as f:
-        return f.read()
+    return FileResponse('dcafrontend.html')
 
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...)):
