@@ -3,32 +3,157 @@ import Header from './components/Header.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import ReportView from './components/ReportView.jsx';
 import { processData } from './utils/dataProcessor.js';
+import { Upload, FileText, TrendingUp, Download, BarChart3, AlertCircle } from 'lucide-react';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function App() {
   const [data, setData] = useState(null);
   const [metrics, setMetrics] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [error, setError] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const text = await file.text();
-    const lines = text.split('\n').filter(line => line.trim());
-    const headers = lines[0].split(',').map(h => h.trim());
-    
-    const parsed = lines.slice(1).map(line => {
-      const values = line.split(',');
-      const obj = {};
-      headers.forEach((header, i) => {
-        obj[header] = values[i]?.trim();
-      });
-      return obj;
-    }).filter(row => row[headers[0]]);
+    setUploading(true);
+    setError(null);
 
-    const { processedData, calculatedMetrics } = processData(parsed);
-    setData(processedData);
-    setMetrics(calculatedMetrics);
+    try {
+      // Validate file type
+      if (!file.name.endsWith('.csv')) {
+        throw new Error('Please upload a CSV file');
+      }
+
+      const text = await file.text();
+      
+      // Check if file is empty
+      if (!text.trim()) {
+        throw new Error('The CSV file is empty');
+      }
+
+      const lines = text.split('\n').filter(line => line.trim());
+      
+      if (lines.length < 2) {
+        throw new Error('CSV file must have at least a header row and one data row');
+      }
+
+      // Parse header
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      
+      console.log('CSV Headers found:', headers);
+
+      // Validate required columns
+      const hasDate = headers.some(h => h.includes('date'));
+      const hasInjection = headers.some(h => h.includes('injection') || h.includes('inject'));
+      const hasProduction = headers.some(h => h.includes('production') || h.includes('produce'));
+
+      if (!hasDate || !hasInjection || !hasProduction) {
+        throw new Error(
+          `Missing required columns. Found: ${headers.join(', ')}. ` +
+          `Need columns containing: 'date', 'injection', 'production'`
+        );
+      }
+
+      // Parse data rows
+      const parsed = lines.slice(1).map((line, index) => {
+        const values = line.split(',').map(v => v.trim());
+        const obj = {};
+        headers.forEach((header, i) => {
+          obj[header] = values[i] || '';
+        });
+        return obj;
+      }).filter(row => {
+        // Filter out empty rows
+        return Object.values(row).some(val => val !== '');
+      });
+
+      if (parsed.length === 0) {
+        throw new Error('No valid data rows found in CSV');
+      }
+
+      console.log('Parsed rows:', parsed.length);
+      console.log('Sample row:', parsed[0]);
+
+      processData(parsed);
+      setUploading(false);
+      
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.message);
+      setUploading(false);
+    }
+
+    // Reset file input
+    e.target.value = '';
+  };
+
+  const processData = (rawData) => {
+    try {
+      // Find the actual column names (case-insensitive, flexible matching)
+      const firstRow = rawData[0];
+      const keys = Object.keys(firstRow);
+      
+      const dateKey = keys.find(k => k.toLowerCase().includes('date'));
+      const injectionKey = keys.find(k => 
+        k.toLowerCase().includes('injection') || 
+        k.toLowerCase().includes('inject') ||
+        k.toLowerCase().includes('co2_injection')
+      );
+      const productionKey = keys.find(k => 
+        k.toLowerCase().includes('production') || 
+        k.toLowerCase().includes('produce') ||
+        k.toLowerCase().includes('co2_production')
+      );
+
+      console.log('Using columns:', { dateKey, injectionKey, productionKey });
+
+      const processed = rawData.map(row => {
+        const injection = parseFloat(row[injectionKey]) || 0;
+        const production = parseFloat(row[productionKey]) || 0;
+        
+        return {
+          date: row[dateKey] || 'Unknown',
+          injection: injection,
+          production: production,
+          net: injection - production
+        };
+      });
+
+      // Calculate metrics
+      const totalInjection = processed.reduce((sum, d) => sum + d.injection, 0);
+      const totalProduction = processed.reduce((sum, d) => sum + d.production, 0);
+      const netCapture = totalInjection - totalProduction;
+      const efficiency = totalInjection > 0 ? ((netCapture / totalInjection) * 100).toFixed(1) : 0;
+      
+      // Carbon credit estimation (1 metric ton CO2 = 1 credit, avg $15/credit)
+      const estimatedCredits = (netCapture / 1000).toFixed(2);
+      const estimatedValue = (estimatedCredits * 15).toFixed(2);
+
+      setData(processed);
+      setMetrics({
+        totalInjection: totalInjection.toFixed(2),
+        totalProduction: totalProduction.toFixed(2),
+        netCapture: netCapture.toFixed(2),
+        efficiency,
+        estimatedCredits,
+        estimatedValue,
+        dataPoints: processed.length
+      });
+      setError(null);
+
+      console.log('Processing complete! Metrics:', {
+        totalInjection,
+        totalProduction,
+        netCapture,
+        efficiency
+      });
+
+    } catch (err) {
+      console.error('Processing error:', err);
+      setError('Error processing data: ' + err.message);
+    }
   };
 
   const loadSampleData = () => {
